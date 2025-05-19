@@ -18,7 +18,7 @@ const app = express();
 
 
 app.set("trust proxy", 1);
-app.use(helmet());
+//app.use(helmet());
 
 async function allRequestHandler(req, res, next){
   try {
