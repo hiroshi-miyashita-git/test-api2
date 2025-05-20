@@ -1,55 +1,18 @@
 const express = require('express');
 const app = express();
 
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-
-// app.get('/', (req, res) => {
-//   try {
-//     res.send({ name: "hoge" });
-//   } catch (error) {
-//     res.sendStatus(500);
-//   }
-// });
-
-// const PORT = process.env.PORT || 8080;
-// app.listen(PORT, () => console.log("start"));
-
-
-
-app.set("trust proxy", 1);
-//app.use(helmet());
-
-async function allRequestHandler(req, res, next){
-  try {
-    if (req.path === "/" || req.path === "/favicon.ico"){
-      res.status(200).send();
-      return;
-    }
-    // if (req.method !== "POST"){
-    //   res.status(405).send();
-    //   return;
-    // }
-  } catch (err){
-    res.status(500).send(JSON.stringify({"msg":"error"}));
-    return;
-  }
-  next();
-};
-
 async function getMethodHandler(req, res){
   try {
-    //res.status(200).send(JSON.stringify(req.body));
-    res.status(200).send({"get": "aaa"});
+    res.status(200).send();
   } catch (err){
     res.status(500).send(JSON.stringify({"msg":"error"}));
   }
   return;
 };
+
 async function postMethodHandler(req, res){
   try {
     res.status(200).send(JSON.stringify(req.body));
-    //res.status(200).send({"post": "bbb"});
   } catch (err){
     res.status(500).send(JSON.stringify({"msg":"error"}));
   }
@@ -58,14 +21,13 @@ async function postMethodHandler(req, res){
 
 app.use((req, res, next) => {
   try {
-    res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+//    res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
     res.charset = 'utf-8';
-    res.removeHeader("X-Powered-By");
+//    res.removeHeader("X-Powered-By");
     res.type("application/json; charset=utf-8");
-    res.setHeader("X-Process-Start-Time",process.hrtime.bigint().toString());
-    decodeURIComponent(req.path);
+//    res.setHeader("X-Process-Start-Time",process.hrtime.bigint().toString());
   } catch (err){
-    return res.redirect(`http://${req.get("Host")}`);
+    return res.status(500).send(JSON.stringify({"msg":"error"}));
   }
   next();
 });
@@ -80,10 +42,9 @@ app.use((err, req, res, next) => {
 });
 
 app.route("/*")
-  .all(allRequestHandler)
   .get(getMethodHandler)
   .post(postMethodHandler)
 ;
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => console.log("start"));
+app.listen(PORT, () => console.log(`Express Start Port:${PORT}`));
