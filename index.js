@@ -72,7 +72,7 @@ app.use((err, req, res, next) => {
 
 app.route("/*")
   .all(allRequestHandler)
-  .get(postMethodHandler)
+  .get(getMethodHandler)
 ;
 
 const PORT = process.env.PORT || 8080;
