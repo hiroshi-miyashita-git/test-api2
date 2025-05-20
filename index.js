@@ -48,8 +48,8 @@ async function getMethodHandler(req, res){
 };
 async function postMethodHandler(req, res){
   try {
-    //res.status(200).send(JSON.stringify(req.body));
-    res.status(200).send({"post": "bbb"});
+    res.status(200).send(JSON.stringify(req.body));
+    //res.status(200).send({"post": "bbb"});
   } catch (err){
     res.status(500).send(JSON.stringify({"msg":"error"}));
   }
