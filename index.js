@@ -60,7 +60,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(json());
+app.use(express.json());
 app.use((err, req, res, next) => {
   if (err) {
     res.status(500).send(JSON.stringify({"msg":"error"}));
