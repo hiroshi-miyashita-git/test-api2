@@ -40,7 +40,16 @@ async function allRequestHandler(req, res, next){
 async function getMethodHandler(req, res){
   try {
     //res.status(200).send(JSON.stringify(req.body));
-    res.status(200).send({"aaa": "bbb"});
+    res.status(200).send({"get": "aaa"});
+  } catch (err){
+    res.status(500).send(JSON.stringify({"msg":"error"}));
+  }
+  return;
+};
+async function postMethodHandler(req, res){
+  try {
+    //res.status(200).send(JSON.stringify(req.body));
+    res.status(200).send({"post": "bbb"});
   } catch (err){
     res.status(500).send(JSON.stringify({"msg":"error"}));
   }
@@ -73,6 +82,7 @@ app.use((err, req, res, next) => {
 app.route("/*")
   .all(allRequestHandler)
   .get(getMethodHandler)
+  .post(postMethodHandler)
 ;
 
 const PORT = process.env.PORT || 8080;
