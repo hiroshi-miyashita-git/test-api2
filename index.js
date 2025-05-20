@@ -26,10 +26,10 @@ async function allRequestHandler(req, res, next){
       res.status(200).send();
       return;
     }
-    if (req.method !== "POST"){
-      res.status(405).send();
-      return;
-    }
+    // if (req.method !== "POST"){
+    //   res.status(405).send();
+    //   return;
+    // }
   } catch (err){
     res.status(500).send(JSON.stringify({"msg":"error"}));
     return;
@@ -37,9 +37,10 @@ async function allRequestHandler(req, res, next){
   next();
 };
 
-async function postMethodHandler(req, res){
+async function getMethodHandler(req, res){
   try {
-    res.status(200).send(JSON.stringify(req.body));
+    //res.status(200).send(JSON.stringify(req.body));
+    res.status(200).send({"aaa": "bbb"});
   } catch (err){
     res.status(500).send(JSON.stringify({"msg":"error"}));
   }
@@ -71,7 +72,7 @@ app.use((err, req, res, next) => {
 
 app.route("/*")
   .all(allRequestHandler)
-  .post(postMethodHandler)
+  .get(postMethodHandler)
 ;
 
 const PORT = process.env.PORT || 8080;
